@@ -40,7 +40,8 @@ login_manager.init_app(app)
 @login_manager.unauthorized_handler
 def unauthorized():
     # return "You must be logged in to access this content.", 403
-    return render_template('login.html')
+    # return render_template('login.html')
+    return redirect(url_for('index'))
 
 # Naive database setup
 try:
@@ -60,9 +61,9 @@ def load_user(user_id):
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        # logout_user()
-        # return render_template('login.html')
-        return redirect(url_for('logout'))
+        logout_user()
+        return render_template('login.html')
+        # return redirect(url_for('logout'))
     else:
         return render_template('login.html')
         # return "<a href='/login'>login</a>"
