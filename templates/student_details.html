@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
+    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
+    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
+    <title>Student details</title>
+<style>
+  /* Split the screen in half */
+  .split 
+  {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+              
+  /* Control the left side */
+  body 
+  {
+    background-image: url("https://images.unsplash.com/photo-1550895030-823330fc2551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80");
+    background-repeat: no-repeat;
+    background-size: cover ;
+  }
+  .left 
+  {
+    left: 0;
+  }
+
+  /* Control the right side */
+  .right 
+  {
+    font-family: 'Montserrat', sans-serif;
+    right: 0; 
+  }
+
+  .list-group-item
+  {
+    font-family: 'Montserrat', sans-serif;
+    background-image:linear-gradient(to left, #9ddac2, #7acae9, #3fdaac);
+    margin:10px;
+    border-radius:20px;
+    border: 2px solid;
+  }
+  .button 
+  {
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    text-align: center;
+    margin-top: 0%;
+    font-size: 16px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .button:hover {opacity: 1}
+  .details
+  {
+    margin-top: 30%;
+  }
+  /* If you want the content centered horizontally and vertically */
+  .centered 
+  {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+</style>  
+</head>    
+<body>
+  <div class="split left">
+    <a href="/logout"><button class="button">Log Out</button></a>
+    <div class="centered">
+      <div class="details">
+        <h2>{{ name }}</h2>
+        <h2>{{ roll_number }}</h2>
+        <h2>{{ branch_name }}</h2>    
+        {% if (semester == '1') %}
+          <h2>Semester: {{  semester }}st</h2>
+        {% elif (semester == '2') %}
+          <h2>Semester: {{  semester }}nd</h2>
+        {% elif (semester == '3') %} 
+          <h2>Semester: {{  semester }}rd</h2>
+        {% else %}
+          <h2>Semester: {{  semester }}th</h2>
+        {% endif %}
+        <h2>CGPI {{ student_cgpi }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="split right">
+    <div class="centered">
+        <h1>Select Choices </h1>
+        <ol class="list-group" id="demo1"></br>
+          {% for subject in subjects %}
+            <li class="list-group-item"> {{ subject }}</li>
+          {% endfor %}</br>
+          <!-- <li class="list-group-item" id="">CEO-316: Finite element method</li>
+          <li class="list-group-item">EEO-316: Neural Networks and Fuzzy Logic</li>
+          <li class="list-group-item">MEO-316: Robotics</li>
+          <li class="list-group-item">MEO-316: Modelling and Simulation</li>
+          <li class="list-group-item">ECO-316: MEMS and Sensor Design</li>
+          <li class="list-group-item">ECO-316: Telecommunication Systems</li>
+          <li class="list-group-item" id="cse-dual">CSO-316: Data Structure</li>
+          <li class="list-group-item">CHO-316: Computational Fluid Dynamics</li>
+          <li class="list-group-item">MSO-317: Fuel Cells and Hydrogen Energy</li>
+          <li class="list-group-item">ARO-317: Auto CAD</li>
+          <li class="list-group-item">HUO-316: Indian Buisness Environment</li>
+          <li class="list-group-item">HUO-316: Dynamics of Behavioural Science in Industries</li>
+          <li class="list-group-item">CMO-316: Catalysis(Principles and Applications)</li></br> -->
+      </ol>
+    </div>
+  </div>
+  <script>
+    Sortable.create(demo1, {
+    animation: 100,
+    group: 'list-1',
+    draggable: '.list-group-item',
+    handle: '.list-group-item',
+    // sort: true,
+    filter: '.sortable-disabled',
+    chosenClass: 'active'
+    });
+  </script>
+  <!-- <script>
+    hide_subject(name)
+    {
+      document.getElementById("cse-dual").hidden = true;
+    }
+  </script> -->
+</body>
+</html>
