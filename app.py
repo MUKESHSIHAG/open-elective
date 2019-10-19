@@ -77,6 +77,7 @@ def login():
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
+        # redirect_uri="/callback",
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
@@ -194,6 +195,14 @@ def callback():
             return render_template('student_details.html', roll_number = roll_number, branch_name = branch_name, semester = student_sem, name = users_name, student_cgpi = '9.6', subjects = subject_5th_sem)
     except:
         render_template('invalid_email.html')
+
+@app.route("/save_details", methods=['POST', 'GET'])
+@login_required
+def save_details():
+    final_list = request.form.getlist('subjects[]')
+    print(final_list)
+    return render_template('save.html', final_list=final_list)
+    # return render_template('student_details.html')
 
 @app.route("/logout")
 @login_required
