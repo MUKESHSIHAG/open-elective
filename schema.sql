@@ -7,3 +7,25 @@ CREATE TABLE user (
   semester INTEGER,
   cgpi REAL
 );
+CREATE TABLE preferences (
+    roll_number TEXT,
+    scode TEXT,
+    preference INTEGER,
+    CHECK (preference > 0),
+    UNIQUE (roll_number,scode),
+    UNIQUE (roll_number,preference)
+);
+CREATE TABLE course (
+    code TEXT,
+    sname TEXT,
+    PRIMARY KEY (code)
+);
+
+INSERT INTO course VALUES 
+('CSO-316','Data Structure'),
+('ECO-316','MEMS and Sensor Design'),
+('MEO-316','Robotics'),
+('ARO-317','Auto CAD'),
+('CHO-316','Computational Fluid Dynamics'),
+('CMO-316','Catalysis(Principles and Applications'),
+('EEO-316','Neural Networks and Fuzzy Logic');

@@ -19,6 +19,7 @@ import requests
 # Internal imports
 from db import init_db_command
 from user import User
+from backend import backend, get_preferences
 
 # Configuration
 GOOGLE_CLIENT_ID = '208590313636-v7vdem6a4f4ttf4kmeq3vaihvajq4sgh.apps.googleusercontent.com'
@@ -26,10 +27,13 @@ GOOGLE_CLIENT_SECRET = 'PNgh_8aUQnUQkYe49W-mldd8'
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
-
+DB_NAME = 'sqlite_db'
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+
+#registering blueprints
+app.register_blueprint(backend)
 
 # User session management setup
 # https://flask-login.readthedocs.io/en/latest
@@ -126,7 +130,6 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
     else:
         return "User email not available or not verified by Google.", 400
-
     # Create a user in our db with the information provided
     # by Google
     try:
@@ -191,18 +194,11 @@ def callback():
             # Doesn't exist? Add to database
             if not User.get(unique_id):
                 User.create(unique_id, users_name, users_email, roll_number, branch_name, student_sem, student_cgpi)
-
+            subject_5th_sem = get_preferences(current_user.roll_number) 
             return render_template('student_details.html', roll_number = roll_number, branch_name = branch_name, semester = student_sem, name = users_name, student_cgpi = '9.6', subjects = subject_5th_sem)
     except:
         render_template('invalid_email.html')
 
-@app.route("/save_details", methods=['POST', 'GET'])
-@login_required
-def save_details():
-    final_list = request.form.getlist('subjects[]')
-    print(final_list)
-    return render_template('save.html', final_list=final_list)
-    # return render_template('student_details.html')
 
 @app.route("/logout")
 @login_required
@@ -214,6 +210,7 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
+    print(app.url_map)
     app.run(ssl_context="adhoc")    
 
  
