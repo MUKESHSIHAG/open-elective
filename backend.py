@@ -5,28 +5,30 @@ import sqlite3
 
 backend = Blueprint('backend',__name__)
 
-@backend.route("/save_details", methods=['POST', 'GET'])
+@backend.route("/save_details", methods=['POST'])
 @login_required
 def save_details():
     roll_number = current_user.roll_number
-
+    
     final_list = request.form.getlist('subjects[]')
-    final_list = [sub.split(':')[0] for sub in final_list]
-
-    return jsonify(update_preferences(roll_number,final_list))
+    # print('final_list',final_list)
+    # final_list = [sub.split(':')[0].strip() for sub in final_list]
+    # print(final_list,'final_list')
+    update_preferences(roll_number,final_list)
+    return "Redirect to Home page"
 
 def get_preferences(roll_number):
     with g.db as conn:
-        cur = conn.execute('''SELECT scode FROM preferences WHERE roll_number=(?) ORDER BY preference ASC''',(roll_number,))
+        cur = conn.execute('''SELECT scode,sname FROM preferences NATURAL JOIN course WHERE roll_number=(?) ORDER BY preference ASC''',(roll_number,))
 
         result = cur.fetchall()
-        result = [i[0] for i in result]
-        print(result)
+        # result = [i[0] for i in result]
+        print(result,'get_preferences')
         return result or get_default_preferences(roll_number)
 
 def get_default_preferences(rollno):
     with g.db as conn:
-        cur = conn.execute('''SELECT code FROM course''')
+        cur = conn.execute('''SELECT scode FROM course''')
         result = cur.fetchall()
         result = [i[0] for i in result]
         print(result,'get_defualt_preferences')
@@ -41,6 +43,4 @@ def update_preferences(roll_number,prefs):
                 conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',(roll_number,sub_code,i))
             except Exception as e:
                 print("Error: ",i,sub_code,e)
-        cur = conn.execute('SELECT * FROM preferences')
-        result = cur.fetchall()
-        return result
+    print('Updated Success')

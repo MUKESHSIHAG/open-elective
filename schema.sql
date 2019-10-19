@@ -16,16 +16,15 @@ CREATE TABLE preferences (
     UNIQUE (roll_number,preference)
 );
 CREATE TABLE course (
-    code TEXT,
+    scode TEXT,
     sname TEXT,
-    PRIMARY KEY (code)
+    PRIMARY KEY (scode)
 );
-
 INSERT INTO course VALUES 
 ('CSO-316','Data Structure'),
 ('ECO-316','MEMS and Sensor Design'),
 ('MEO-316','Robotics'),
 ('ARO-317','Auto CAD'),
 ('CHO-316','Computational Fluid Dynamics'),
-('CMO-316','Catalysis(Principles and Applications'),
+('CMO-316','Catalysis(Principles and Applications)'),
 ('EEO-316','Neural Networks and Fuzzy Logic');

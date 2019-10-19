@@ -106,9 +106,9 @@
       <div class="centered">
           <h1>Select Choices </h1>
           <ol class="list-group" id="demo1" ></br>
-            {% for subject in subjects %}
+            {% for scode,subject in subjects %}
               <li class="list-group-item">
-                  <input type="hidden" name="subjects[]" value="{{ subject }}"/> {{ subject }}
+                  <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
               </li>
             {% endfor %}</br>
           </ol>
