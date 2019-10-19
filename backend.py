@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, jsonify, g
+from flask import Blueprint, request, render_template, jsonify, g, redirect, url_for
 from flask_login import login_required, current_user
 
 import sqlite3
@@ -15,7 +15,7 @@ def save_details():
     # final_list = [sub.split(':')[0].strip() for sub in final_list]
     # print(final_list,'final_list')
     update_preferences(roll_number,final_list)
-    return "Redirect to Home page"
+    return redirect(url_for('home'))
 
 def get_preferences(roll_number):
     with g.db as conn:

@@ -1,0 +1,5 @@
+sqlite_db
+open-elective/
+.vscode/
+__pycache__/
+*.db
