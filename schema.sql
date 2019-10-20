@@ -4,6 +4,7 @@ CREATE TABLE user (
   email TEXT UNIQUE PRIMARY KEY,
   roll_number TEXT,
   branch TEXT,
+  branch_code TEXT,
   semester INTEGER,
   cgpi REAL
 );

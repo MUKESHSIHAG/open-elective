@@ -138,7 +138,7 @@ def callback():
     try:
         # Verifying user is from nith or not
         if not (users_email.endswith('@nith.ac.in')):
-            return render_template('invalid_email.html')
+            return redirect(url_for('invalid_email'))
 
         else:
             # Finding students Rollno. and branch
@@ -152,41 +152,56 @@ def callback():
                 student_sem = str(2 * student_year)
             roll_number = users_email[:users_email.index('@')]
             branch_name = ''
+            branch_code = ''
             users_email = str(users_email)
             if('mi5' in users_email):
                 branch_name = 'CSE-Dual'
+                branch_code = 'CS'
             elif('mi4' in  users_email):
                 branch_name = 'ECE-Dual'
+                branch_code = 'EC'
             elif(users_email[2] == '3'):
                 branch_name = 'Mechanical'
+                branch_code = 'MC'
             elif(users_email[2] == '5'):
-                branch_name = 'CSE'          
+                branch_name = 'CSE'        
+                branch_code = 'CS'  
             elif(users_email[2] == '6'):
                 branch_name = 'Architecture'
+                branch_code = 'AR'
             elif(users_email[2] == '7'):
                 branch_name = 'Chemical'
+                branch_code = 'CH'
             elif(users_email[2] == '1'):
                 branch_name = 'Civil'
+                branch_code = 'CE'
             elif(users_email[2] == '4'):
                 branch_name = 'ECE'
+                branch_code = 'EC'
             elif(users_email[2] == '2'):
                 branch_name = 'Electrical'
+                branch_code = 'EE'
             elif(users_email[2] == '8'):
                 branch_name = 'Material'
+                branch_code = 'MS'
 
             student_cgpi = '9.6'
             user = User(
-                id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, semester=student_sem, cgpi=student_cgpi
+                id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, branch_code=branch_code, semester=student_sem, cgpi=student_cgpi
             )
             login_user(user)
 
             # Doesn't exist? Add to database
             if not User.get(unique_id):
-                User.create(unique_id, users_name, users_email, roll_number, branch_name, student_sem, student_cgpi)
+                User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
             # Begin user session by logging the user in
             return redirect(url_for('home'))
     except:
-        render_template('invalid_email.html')
+        redirect(url_for('invalid_email'))
+
+@app.route("/invalid_email")
+def invalid_email():
+    return render_template('invalid_email.html')
 
 @app.route("/home")
 @login_required
