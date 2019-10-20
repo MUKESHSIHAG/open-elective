@@ -22,12 +22,13 @@ from user import User
 from backend import backend, get_preferences
 
 # Configuration
-GOOGLE_CLIENT_ID = '208590313636-v7vdem6a4f4ttf4kmeq3vaihvajq4sgh.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'PNgh_8aUQnUQkYe49W-mldd8'
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
-DB_NAME = 'sqlite_db'
+
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
@@ -44,7 +45,8 @@ login_manager.init_app(app)
 @login_manager.unauthorized_handler
 def unauthorized():
     # return "You must be logged in to access this content.", 403
-    return render_template('login.html')
+    # return render_template('login.html')
+    return redirect(url_for('index'))
 
 # Naive database setup
 try:
@@ -66,6 +68,7 @@ def index():
     if current_user.is_authenticated:
         logout_user()
         return render_template('login.html')
+        # return redirect(url_for('logout'))
     else:
         return render_template('login.html')
         # return "<a href='/login'>login</a>"
@@ -139,7 +142,6 @@ def callback():
 
         else:
             # Finding students Rollno. and branch
-            subject_5th_sem = ['CEO-316: Finite element method', 'EEO-316: Neural Networks and Fuzzy Logic', 'MEO-316: Robotics', 'MEO-316: Modelling and Simulation', 'ECO-316: MEMS and Sensor Design', 'ECO-316: Telecommunication Systems', 'CSO-316: Data Structure', 'CHO-316: Computational Fluid Dynamics', 'MSO-317: Fuel Cells and Hydrogen Energy', 'ARO-317: Auto CAD', 'HUO-316: Indian Buisness Environment', 'HUO-316: Dynamics of Behavioural Science in Industries', 'CMO-316: Catalysis(Principles and Applications)']
             current_year = str(datetime.datetime.now().year)[2:]
             current_month = datetime.datetime.now().month
             student_sem  = 0
@@ -153,38 +155,25 @@ def callback():
             users_email = str(users_email)
             if('mi5' in users_email):
                 branch_name = 'CSE-Dual'
-                subject_5th_sem.remove('CSO-316: Data Structure')
             elif('mi4' in  users_email):
                 branch_name = 'ECE-Dual'
-                subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
-                subject_5th_sem.remove('ECO-316: Telecommunication Systems')
             elif(users_email[2] == '3'):
                 branch_name = 'Mechanical'
-                subject_5th_sem.remove('MEO-316: Robotics')
-                subject_5th_sem.remove('MEO-316: Modelling and Simulation')
             elif(users_email[2] == '5'):
-                branch_name = 'CSE'
-                subject_5th_sem.remove('CSO-316: Data Structure')                
+                branch_name = 'CSE'          
             elif(users_email[2] == '6'):
                 branch_name = 'Architecture'
-                subject_5th_sem.remove('ARO-317: Auto CAD')
             elif(users_email[2] == '7'):
                 branch_name = 'Chemical'
-                subject_5th_sem.remove('CHO-316: Computational Fluid Dynamics')
             elif(users_email[2] == '1'):
                 branch_name = 'Civil'
-                subject_5th_sem.remove('CMO-316: Catalysis(Principles and Applications)')
             elif(users_email[2] == '4'):
                 branch_name = 'ECE'
-                subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
-                subject_5th_sem.remove('ECO-316: Telecommunication Systems')
             elif(users_email[2] == '2'):
                 branch_name = 'Electrical'
-                subject_5th_sem.remove('EEO-316: Neural Networks and Fuzzy Logic')
             elif(users_email[2] == '8'):
                 branch_name = 'Material'
 
-            # Begin user session by logging the user in
             student_cgpi = '9.6'
             user = User(
                 id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, semester=student_sem, cgpi=student_cgpi
@@ -194,11 +183,49 @@ def callback():
             # Doesn't exist? Add to database
             if not User.get(unique_id):
                 User.create(unique_id, users_name, users_email, roll_number, branch_name, student_sem, student_cgpi)
-            subject_5th_sem = get_preferences(current_user.roll_number) 
-            return render_template('student_details.html', roll_number = roll_number, branch_name = branch_name, semester = student_sem, name = users_name, student_cgpi = '9.6', subjects = subject_5th_sem)
+            # Begin user session by logging the user in
+            return redirect(url_for('home'))
     except:
         render_template('invalid_email.html')
 
+@app.route("/home")
+@login_required
+def home():
+    subject_5th_sem = ['CEO-316: Finite element method', 'EEO-316: Neural Networks and Fuzzy Logic', 'MEO-316: Robotics', 'MEO-316: Modelling and Simulation', 'ECO-316: MEMS and Sensor Design', 'ECO-316: Telecommunication Systems', 'CSO-316: Data Structure', 'CHO-316: Computational Fluid Dynamics', 'MSO-317: Fuel Cells and Hydrogen Energy', 'ARO-317: Auto CAD', 'HUO-316: Indian Buisness Environment', 'HUO-316: Dynamics of Behavioural Science in Industries', 'CMO-316: Catalysis(Principles and Applications)']
+    name = current_user.name
+    roll_number = current_user.roll_number
+    branch = current_user.branch
+    semester = current_user.semester
+    cgpi = current_user.cgpi
+    if(branch.lower() == 'cse-dual'):
+        subject_5th_sem.remove('CSO-316: Data Structure')
+    elif(branch.lower() == 'cse'):
+        subject_5th_sem.remove('CSO-316: Data Structure')
+    elif(branch.lower() == 'civil'):
+        subject_5th_sem.remove('CEO-316: Finite element method')
+    elif(branch.lower() == 'electrical'):
+        subject_5th_sem.remove('EEO-316: Neural Networks and Fuzzy Logic')
+    elif(branch.lower() == 'mechanical'):
+        subject_5th_sem.remove('MEO-316: Robotics')
+        subject_5th_sem.remove('MEO-316: Modelling and Simulation')
+    elif(branch.lower() == 'ece'):
+        subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
+        subject_5th_sem.remove('ECO-316: Telecommunication Systems')
+    elif(branch.lower() == 'ece-dual'):
+        subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
+        subject_5th_sem.remove('ECO-316: Telecommunication Systems')
+    elif(branch.lower() == 'chemical'):
+        subject_5th_sem.remove('CHO-316: Computational Fluid Dynamics')
+    elif(branch.lower() == 'material'):
+        subject_5th_sem.remove('MSO-317: Fuel Cells and Hydrogen Energys')
+    elif(branch.lower() == 'architecture'):
+        subject_5th_sem.remove('ARO-317: Auto CAD')
+    
+    # this is the way to get the list of preferences
+    # currently showing all subjects
+    subject_5th_sem = get_preferences(current_user.roll_number)
+
+    return render_template('student_details.html', roll_number = roll_number, branch = branch, semester = semester, name = name, student_cgpi = '9.6', subjects = subject_5th_sem)
 
 @app.route("/logout")
 @login_required
@@ -210,10 +237,4 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    print(app.url_map)
-    app.run(ssl_context="adhoc")    
-
- 
-
-
-    # ni24yc462
+    app.run(ssl_context="adhoc")

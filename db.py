@@ -1,11 +1,11 @@
-import sqlite3
-
+import sqlite3, os
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
 def get_db():
     if "db" not in g:
+        db_name = os.getenv('DB_NAME','data.db')
         g.db = sqlite3.connect(
             "data.db", detect_types=sqlite3.PARSE_DECLTYPES
         )
