@@ -89,14 +89,14 @@
         <h2>{{ roll_number }}</h2>
         <h2>{{ branch }}</h2>    
         {% if (semester == '1') %}
-          <h2>Semester: {{  semester }}st</h2>
+        <h2>Semester: {{  semester }}st</h2>
         {% elif (semester == '2') %}
           <h2>Semester: {{  semester }}nd</h2>
         {% elif (semester == '3') %} 
-          <h2>Semester: {{  semester }}rd</h2>
+        <h2>Semester: {{  semester }}rd</h2>
         {% else %}
           <h2>Semester: {{  semester }}th</h2>
-        {% endif %}
+          {% endif %}
         <h2>CGPI {{ student_cgpi }}</h2>
       </div>
     </div>
@@ -109,12 +109,12 @@
             {% for scode,subject in subjects %}
               <li class="list-group-item">
                   <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
-              </li>
-            {% endfor %}</br>
-          </ol>
-          <input type="submit" value="submit" onclick="myfun()"/>
-        </div>
-      </div>
+                </li>
+                {% endfor %}</br>
+              </ol>
+              <input type="submit" value="submit"/>
+            </div>
+          </div>
   </form>
   <script>
     Sortable.create(demo1, {
@@ -127,10 +127,22 @@
     chosenClass: 'active'
     });
   </script>
-  <script>
+  <!-- <script>
       function myfun() {
         alert("Your data has been saved");
       }
-      </script>
+      </script> -->
+      
+  <!-- Show success message -->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+  {% endwith %}
 </body>
 </html>
