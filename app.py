@@ -22,12 +22,13 @@ from user import User
 from backend import backend, get_preferences
 
 # Configuration
-GOOGLE_CLIENT_ID = '208590313636-v7vdem6a4f4ttf4kmeq3vaihvajq4sgh.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'PNgh_8aUQnUQkYe49W-mldd8'
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
-DB_NAME = 'sqlite_db'
+
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
@@ -226,13 +227,6 @@ def home():
 
     return render_template('student_details.html', roll_number = roll_number, branch = branch, semester = semester, name = name, student_cgpi = '9.6', subjects = subject_5th_sem)
 
-@app.route("/save_details", methods=['POST', 'GET'])
-@login_required
-def save_details():
-    final_list = request.form.getlist('subjects[]')
-    print(final_list)
-    return redirect(url_for('home'))
-
 @app.route("/logout")
 @login_required
 def logout():
@@ -243,10 +237,4 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    print(app.url_map)
-    app.run(ssl_context="adhoc")    
-
- 
-
-
-    # ni24yc462
+    app.run(ssl_context="adhoc")
