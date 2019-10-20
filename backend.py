@@ -9,7 +9,7 @@ backend = Blueprint('backend',__name__)
 @login_required
 def save_details():
     roll_number = current_user.roll_number
-    
+    # print(current_user.branch_code)
     final_list = request.form.getlist('subjects[]')
     # print('final_list',final_list)
     # final_list = [sub.split(':')[0].strip() for sub in final_list]
