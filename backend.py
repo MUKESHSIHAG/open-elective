@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, jsonify, g, redirect, url_for
+from flask import Blueprint, request, render_template, jsonify, g, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 import sqlite3
@@ -15,6 +15,7 @@ def save_details():
     # final_list = [sub.split(':')[0].strip() for sub in final_list]
     # print(final_list,'final_list')
     update_preferences(roll_number,final_list)
+    flash('Preferences updated successfully!')
     return redirect(url_for('home'))
 
 def get_preferences(roll_number):
@@ -23,7 +24,7 @@ def get_preferences(roll_number):
 
         result = cur.fetchall()
         # result = [i[0] for i in result]
-        print(result,'get_preferences')
+        # print(result,'get_preferences')
         return result or get_default_preferences(roll_number)
 
 def get_default_preferences(rollno):
@@ -31,7 +32,7 @@ def get_default_preferences(rollno):
         cur = conn.execute('''SELECT scode FROM course''')
         result = cur.fetchall()
         result = [i[0] for i in result]
-        print(result,'get_defualt_preferences')
+        print(result,'get_default_preferences')
         update_preferences(rollno,result)
     return get_preferences(rollno)
 
@@ -43,4 +44,4 @@ def update_preferences(roll_number,prefs):
                 conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',(roll_number,sub_code,i))
             except Exception as e:
                 print("Error: ",i,sub_code,e)
-    print('Updated Success')
+    # print('Updated Success')
