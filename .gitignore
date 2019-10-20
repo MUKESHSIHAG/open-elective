@@ -1,0 +1,7 @@
+sqlite_db
+open-elective/
+.vscode/
+__pycache__/
+*.db
+oth.py
+sadflk.py
