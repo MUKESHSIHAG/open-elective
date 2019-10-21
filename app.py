@@ -252,4 +252,4 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    app.run(ssl_context="adhoc")
+    app.run(ssl_context="adhoc",debug=True)
