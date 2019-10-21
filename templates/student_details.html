@@ -85,19 +85,11 @@
     <a href="/logout"><button class="button">Log Out</button></a>
     <div class="centered">
       <div class="details">
-        <h2>{{ name }}</h2>
-        <h2>{{ roll_number }}</h2>
-        <h2>{{ branch }}</h2>    
-        {% if (semester == '1') %}
-        <h2>Semester: {{  semester }}st</h2>
-        {% elif (semester == '2') %}
-          <h2>Semester: {{  semester }}nd</h2>
-        {% elif (semester == '3') %} 
-        <h2>Semester: {{  semester }}rd</h2>
-        {% else %}
-          <h2>Semester: {{  semester }}th</h2>
-          {% endif %}
-        <h2>CGPI {{ student_cgpi }}</h2>
+        <h2>{{ current_user.name }}</h2>
+        <h2>{{ current_user.roll_number }}</h2>
+        <h2>{{ current_user.branch }}</h2> 
+        <h2>Semester: {{ current_user.semester }}</h2>
+        <h2>CGPI: {{ current_user.cgpi }}</h2>
       </div>
     </div>
   </div>
