@@ -96,17 +96,17 @@
   <form action="{{ url_for('backend.save_details') }}" method="POST">
     <div class="split right">
       <div class="centered">
-          <h1>Select Choices </h1>
-          <ol class="list-group" id="demo1" ></br>
-            {% for scode,subject in subjects %}
-              <li class="list-group-item">
-                  <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
-                </li>
-                {% endfor %}</br>
-              </ol>
-              <input type="submit" value="submit"/>
-            </div>
-          </div>
+        <h1>Select Choices </h1>
+        <ol class="list-group" id="demo1" ></br>
+          {% for scode,subject in subjects %}
+          <li class="list-group-item">
+            <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
+          </li>
+          {% endfor %}</br>
+        </ol>
+        <input type="submit" value="submit"/>
+      </div>
+    </div>
   </form>
   <script>
     Sortable.create(demo1, {
@@ -119,22 +119,20 @@
     chosenClass: 'active'
     });
   </script>
-  <!-- <script>
-      function myfun() {
-        alert("Your data has been saved");
-      }
-      </script> -->
-      
+  
   <!-- Show success message -->
   {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <script>
-      var messages = {{ messages | safe }};
+  <script>
+    var messages = {{ messages | safe }};
+    $("document").ready( function () {
       for (var i=0; i<messages.length; i++) {
         alert(messages[i]);
-      }
-    </script>
+      } 
+    });
+  </script>
   {% endif %}
   {% endwith %}
+  
 </body>
 </html>
