@@ -1,39 +1,16 @@
-<html lang="en">
+  <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
-    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
-    <script src="https://daemonite.github.io/material/js/material.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Student details</title>
 <style>
-  /* Split the screen in half */
-  .split 
-  {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
-  }
-              
-  /* Control the left side */
   body 
   {
-    /* background-image: url("https://images.unsplash.com/photo-1550895030-823330fc2551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"); */
-    background: #ffffff;
+    background: #f5f3f3;
     background-repeat: no-repeat;
     background-size: cover ;
   }
-  .left 
-  {
-    left: 0;
-  }
-
   /* Control the right side */
   .right 
   {
@@ -44,84 +21,40 @@
   .list-group-item
   {
     font-family: 'Montserrat', sans-serif;
-    background-image:linear-gradient(to left, #9ddac2, #7acae9, #3fdaac);
-    margin:10px;
-    border-radius:20px;
-    border: 2px solid;
   }
-  .button 
-  {
-    background-color: #f4511e;
-    border: none;
-    color: white;
-    padding: 10px 22px;
-    text-align: center;
-    margin-top: 0%;
-    font-size: 16px;
-    opacity: 0.8;
-    transition: 0.3s;
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .button:hover {opacity: 1}
-  .details
-  {
-    margin-top: 30%;
-  }
-  /* If you want the content centered horizontally and vertically */
-  .centered 
-  {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
+  
+  /* li { background: green; } */
+  li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
 </style>  
 </head>    
 <body>
-    <a href="/logout" class="right"><button class="button">Log Out</button></a>
-    <div class="container float-left" style="width: 30%; height:100%; position:fixed; background: #ffffff; padding-bottom: 5%; padding-top: 2%;"> 
-        <!-- <h2 class="text-light text-center">Details</h2> -->
-        <div class="card text-uppercase text-secondary font-weight-bold text-center" style="height:100%;">
-          <div class="card-body" style="height: 10px;"><h3>{{current_user.name}}</h3></div>
-          <div class="card-body" style="height: 10px;"><h3>{{current_user.roll_number}}</h3></div>
-          <div class="card-body" style="height: 10px;"><h3>{{current_user.branch}}</h3></div>
-          <div class="card-body" style="height: 10px;"><h3>Semester: {{current_user.semester}}</h3></div>
-          <div class="card-body" style="height: 10px;"><h3>CGPI:    {{current_user.cgpi}}</h3></div>
+    <a href="/logout" class="right" style="position: fixed;margin-right: 2%; margin-top: 2%;"><button class="btn btn-warning" style="width: 100%;">Log Out</button></a>
+    <div class="container float-left col-md-3" style="height:100%; position:fixed; background: #f5f3f3; padding-bottom: 5%; padding-top: 5%;"> 
+        <div class="card text-uppercase text-secondary font-weight-bold text-center" style="height:100%; background: #f5f3f3;">
+          <div class="card-body" style="height: 0%;"><h3>{{current_user.name}}</h3></div>
+          <div class="card-body" style="height: 0;"><h3>{{current_user.roll_number}}</h3></div>
+          <div class="card-body" style="height: 5%;"><h3>{{current_user.branch}}</h3></div>
+          <div class="card-body" style="height: 5%;"><h3>Semester: {{current_user.semester}}</h3></div>
+          <div class="card-body" style="height: 5%;"><h3>CGPI:    {{current_user.cgpi}}</h3></div>
         </div>
-      </div>
-  <!-- <div class="split left">
-    <a href="/logout"><button class="button">Log Out</button></a>
-    <div class="centered">
-      <div class="details">
-        <h2>{{ current_user.name }}</h2>
-        <h2>{{ current_user.roll_number }}</h2>
-        <h2>{{ current_user.branch }}</h2> 
-        <h2>Semester: {{ current_user.semester }}</h2>
-        <h2>CGPI: {{ current_user.cgpi }}</h2>
-      </div>
     </div>
-  </div> -->
   <form action="{{ url_for('backend.save_details') }}" method="POST">
-    <div class="split right">
-      <div class="centered">
-        <h1>Select Choices </h1>
-        <ol class="list-group" id="demo1" ></br>
+    <div class="col-md-12 float-right text-center font-weight-light" style="margin-right:15%; width: 40%; font-size: 18px">
+      <div class="">
+        <h1 class="text-secondary">SELECT CHOICES </h1>
+        <ol class="list-group" id="myList" ></br>
           {% for scode,subject in subjects %}
-          <li class="list-group-item">
+          <li class="list-group-item" style="height: 70px;">
             <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
           </li>
           {% endfor %}</br>
         </ol>
-        <input type="submit" value="Submit" class="button"/>
+        <input type="submit" value="Submit" class="btn btn-primary" style="width: 20%; margin-bottom: 5%;"/>
       </div>
     </div>
   </form>
   <script>
-    Sortable.create(demo1, {
+    Sortable.create(myList, {
     animation: 100,
     group: 'list-1',
     draggable: '.list-group-item',
