@@ -45,3 +45,6 @@ def update_preferences(roll_number,prefs):
             except Exception as e:
                 print("Error: ",i,sub_code,e)
     # print('Updated Success')
+
+def get_cgpi(roll_number):
+    return 9.1
