@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://daemonite.github.io/material/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
@@ -24,7 +24,8 @@
   /* Control the left side */
   body 
   {
-    background-image: url("https://images.unsplash.com/photo-1550895030-823330fc2551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80");
+    /* background-image: url("https://images.unsplash.com/photo-1550895030-823330fc2551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"); */
+    background: #ffffff;
     background-repeat: no-repeat;
     background-size: cover ;
   }
@@ -57,7 +58,7 @@
     text-align: center;
     margin-top: 0%;
     font-size: 16px;
-    opacity: 0.6;
+    opacity: 0.8;
     transition: 0.3s;
     display: inline-block;
     text-decoration: none;
@@ -81,7 +82,18 @@
 </style>  
 </head>    
 <body>
-  <div class="split left">
+    <a href="/logout" class="right"><button class="button">Log Out</button></a>
+    <div class="container float-left" style="width: 30%; height:100%; position:fixed; background: #ffffff; padding-bottom: 5%; padding-top: 2%;"> 
+        <!-- <h2 class="text-light text-center">Details</h2> -->
+        <div class="card text-uppercase text-secondary font-weight-bold text-center" style="height:100%;">
+          <div class="card-body" style="height: 10px;"><h3>{{current_user.name}}</h3></div>
+          <div class="card-body" style="height: 10px;"><h3>{{current_user.roll_number}}</h3></div>
+          <div class="card-body" style="height: 10px;"><h3>{{current_user.branch}}</h3></div>
+          <div class="card-body" style="height: 10px;"><h3>Semester: {{current_user.semester}}</h3></div>
+          <div class="card-body" style="height: 10px;"><h3>CGPI:    {{current_user.cgpi}}</h3></div>
+        </div>
+      </div>
+  <!-- <div class="split left">
     <a href="/logout"><button class="button">Log Out</button></a>
     <div class="centered">
       <div class="details">
@@ -92,7 +104,7 @@
         <h2>CGPI: {{ current_user.cgpi }}</h2>
       </div>
     </div>
-  </div>
+  </div> -->
   <form action="{{ url_for('backend.save_details') }}" method="POST">
     <div class="split right">
       <div class="centered">
@@ -104,7 +116,7 @@
           </li>
           {% endfor %}</br>
         </ol>
-        <input type="submit" value="submit"/>
+        <input type="submit" value="Submit" class="button"/>
       </div>
     </div>
   </form>
@@ -119,7 +131,7 @@
     chosenClass: 'active'
     });
   </script>
-  
+
   <!-- Show success message -->
   {% with messages = get_flashed_messages() %}
   {% if messages %}
