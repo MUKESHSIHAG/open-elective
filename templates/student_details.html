@@ -3,12 +3,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Student details</title>
+    <title>{{current_user.name}} details</title>
 <style>
   body 
   {
-    background: #f5f3f3;
-    background-repeat: no-repeat;
+    background: #fffafa;
+    /* background-repeat: no-repeat; */
     background-size: cover ;
   }
   /* Control the right side */
@@ -23,36 +23,40 @@
     font-family: 'Montserrat', sans-serif;
   }
   
-  /* li { background: green; } */
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
 </style>  
 </head>    
 <body>
-    <a href="/logout" class="right" style="position: fixed;margin-right: 2%; margin-top: 2%;"><button class="btn btn-warning" style="width: 100%;">Log Out</button></a>
-    <div class="container float-left col-md-3" style="height:100%; position:fixed; background: #f5f3f3; padding-bottom: 5%; padding-top: 5%;"> 
-        <div class="card text-uppercase text-secondary font-weight-bold text-center" style="height:100%; background: #f5f3f3;">
-          <div class="card-body" style="height: 0%;"><h3>{{current_user.name}}</h3></div>
-          <div class="card-body" style="height: 0;"><h3>{{current_user.roll_number}}</h3></div>
-          <div class="card-body" style="height: 5%;"><h3>{{current_user.branch}}</h3></div>
-          <div class="card-body" style="height: 5%;"><h3>Semester: {{current_user.semester}}</h3></div>
-          <div class="card-body" style="height: 5%;"><h3>CGPI:    {{current_user.cgpi}}</h3></div>
-        </div>
-    </div>
-  <form action="{{ url_for('backend.save_details') }}" method="POST">
-    <div class="col-md-12 float-right text-center font-weight-light" style="margin-right:15%; width: 40%; font-size: 18px">
-      <div class="">
-        <h1 class="text-secondary">SELECT CHOICES </h1>
-        <ol class="list-group" id="myList" ></br>
-          {% for scode,subject in subjects %}
-          <li class="list-group-item" style="height: 70px;">
-            <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
-          </li>
-          {% endfor %}</br>
-        </ol>
-        <input type="submit" value="Submit" class="btn btn-primary" style="width: 20%; margin-bottom: 5%;"/>
+  <div class="container navbar-light bg-dark col-md-12 fixed-top" style="height: 10%;">
+      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 12%; padding-top:10px;">Details</span></h1></a>
+      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 33%;">SELECT CHOICES</span></h1></a>
+      <a href="/logout"><span class="navbar-brand mb-0 h1 btn btn-warning" style="margin-left:16%; margin-top: 10px;">Logout</span></button></a>
+  </div>
+  <div class="col-md-12" style="padding-right:25%;">
+    <div class="container float-left col-md-3 z-depth-5" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
+      <div class="card text-uppercase text-secondary font-weight-bold text-center" style=" box-shadow: 8px 8px 8px 8px rgb(240, 236, 236);">
+        <div class="card-body"><h3>{{current_user.name}}</h3></div>
+        <div class="card-body"><h3>{{current_user.roll_number}}</h3></div>
+        <div class="card-body"><h3>{{current_user.branch}}</h3></div>
+        <div class="card-body"><h3>Semester: {{current_user.semester}}</h3></div>
+        <div class="card-body"><h3>CGPI:    {{current_user.cgpi}}</h3></div>
       </div>
     </div>
-  </form>
+    <div class="col-md-1"></div>
+    <div class="col-md-5 float-right text-center font-weight-light" style="margin-top: 7%;">
+      <form action="{{ url_for('backend.save_details') }}" method="POST">
+        <ol class="list-group" id="myList" ></br>
+          {% for scode,subject in subjects %}
+          <li class="list-group-item" style="height: 70px; width: 130%;">
+              <input type="hidden" name="subjects[]" value="{{ scode }}"/> {{ scode }}:{{ subject }}
+            </li>
+            {% endfor %}</br>
+          </ol>
+          <input type="submit" value="Submit" class="btn btn-primary" style="width: 20%; margin-bottom: 5%; margin-left: 30%;"/>
+      </form>
+    </div>
+    <div class="col-md-"></div>
+  </div>
   <script>
     Sortable.create(myList, {
     animation: 100,
@@ -65,10 +69,10 @@
     });
   </script>
 
-  <!-- Show success message -->
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <script>
+<!-- Show success message -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<script>
     var messages = {{ messages | safe }};
     $("document").ready( function () {
       for (var i=0; i<messages.length; i++) {
