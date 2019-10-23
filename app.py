@@ -1,3 +1,5 @@
+# import google
+
 # Python standard libraries
 import json
 import os, datetime
@@ -206,38 +208,6 @@ def invalid_email():
 @app.route("/home")
 @login_required
 def home():
-    # subject_5th_sem = ['CEO-316: Finite element method', 'EEO-316: Neural Networks and Fuzzy Logic', 'MEO-316: Robotics', 'MEO-316: Modelling and Simulation', 'ECO-316: MEMS and Sensor Design', 'ECO-316: Telecommunication Systems', 'CSO-316: Data Structure', 'CHO-316: Computational Fluid Dynamics', 'MSO-317: Fuel Cells and Hydrogen Energy', 'ARO-317: Auto CAD', 'HUO-316: Indian Buisness Environment', 'HUO-316: Dynamics of Behavioural Science in Industries', 'CMO-316: Catalysis(Principles and Applications)']
-    # name = current_user.name
-    # roll_number = current_user.roll_number
-    # branch = current_user.branch
-    # semester = current_user.semester
-    # cgpi = current_user.cgpi
-    # if(branch.lower() == 'cse-dual'):
-    #     subject_5th_sem.remove('CSO-316: Data Structure')
-    # elif(branch.lower() == 'cse'):
-    #     subject_5th_sem.remove('CSO-316: Data Structure')
-    # elif(branch.lower() == 'civil'):
-    #     subject_5th_sem.remove('CEO-316: Finite element method')
-    # elif(branch.lower() == 'electrical'):
-    #     subject_5th_sem.remove('EEO-316: Neural Networks and Fuzzy Logic')
-    # elif(branch.lower() == 'mechanical'):
-    #     subject_5th_sem.remove('MEO-316: Robotics')
-    #     subject_5th_sem.remove('MEO-316: Modelling and Simulation')
-    # elif(branch.lower() == 'ece'):
-    #     subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
-    #     subject_5th_sem.remove('ECO-316: Telecommunication Systems')
-    # elif(branch.lower() == 'ece-dual'):
-    #     subject_5th_sem.remove('ECO-316: MEMS and Sensor Design')
-    #     subject_5th_sem.remove('ECO-316: Telecommunication Systems')
-    # elif(branch.lower() == 'chemical'):
-    #     subject_5th_sem.remove('CHO-316: Computational Fluid Dynamics')
-    # elif(branch.lower() == 'material'):
-    #     subject_5th_sem.remove('MSO-317: Fuel Cells and Hydrogen Energys')
-    # elif(branch.lower() == 'architecture'):
-    #     subject_5th_sem.remove('ARO-317: Auto CAD')
-    
-    # this is the way to get the list of preferences
-    # currently showing all subjects
     subjects = get_preferences(current_user.roll_number)
 
     return render_template('student_details.html', subjects = subjects)
@@ -252,4 +222,4 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    app.run(ssl_context="adhoc",debug=True)
+    app.run(ssl_context="adhoc", debug=True)
