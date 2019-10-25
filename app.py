@@ -188,6 +188,8 @@ def callback():
                 branch_code = 'MS'
 
             student_cgpi = get_cgpi(roll_number)
+            if student_cgpi is None:
+                return "CGPI not found"
             user = User(
                 id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, branch_code=branch_code, semester=student_sem, cgpi=student_cgpi
             )
@@ -222,4 +224,4 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    app.run(ssl_context="adhoc", debug=True)
+    app.run(ssl_context=('cert.pem','key.pem'))
