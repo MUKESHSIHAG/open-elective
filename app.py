@@ -141,6 +141,12 @@ def callback():
         # Verifying user is from nith or not
         if not (users_email.endswith('@nith.ac.in')):
             return redirect(url_for('invalid_email'))
+        
+        elif (users_email.startswith('iiitu')):
+            return "Sorry, It's  only for NITians"
+
+        elif not (users_email[:2].isnumeric()):
+            return "Don't be Oversmart! it's only for Students"
 
         else:
             # Finding students Rollno. and branch
@@ -199,7 +205,12 @@ def callback():
             if not User.get(unique_id):
                 User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
             # Begin user session by logging the user in
-            return redirect(url_for('home'))
+            if student_year == '1':
+                return "You have enough time for open elective choice! Now just focus on your study only :)"
+            elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
+                return redirect(url_for('home'))
+            else:
+                return "Open elctive is not for you baby"
     except:
         redirect(url_for('invalid_email'))
 
@@ -224,4 +235,5 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
-    app.run(ssl_context=('cert.pem','key.pem'))
+    # app.run(ssl_context=('cert.pem','key.pem'))
+    app.run(ssl_context='adhoc', debug=True)
