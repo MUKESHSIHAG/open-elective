@@ -1,9 +1,9 @@
   <html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>{{current_user.name}} details</title>
 <style>
   body 
@@ -29,12 +29,15 @@
 </head>    
 <body>
   <div class="container navbar-light bg-dark col-md-12 fixed-top" style="height: 10%;">
-      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 12%; padding-top:10px;">Details</span></h1></a>
+      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 12%; padding-top:10px;"></span></h1></a>
       <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 33%;">SELECT CHOICES</span></h1></a>
       <a href="/logout"><span class="navbar-brand mb-0 h1 btn btn-warning" style="margin-left:16%; margin-top: 10px;">Logout</span></button></a>
   </div>
   <div class="col-md-12" style="padding-right:25%;">
-    <div class="container float-left col-md-3 z-depth-5" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
+    <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
+      <div class="card-header">
+          <h3>Details</h3>
+      </div>
       <div class="card text-uppercase text-secondary font-weight-bold text-center" style=" box-shadow: 8px 8px 8px 8px rgb(240, 236, 236);">
         <div class="card-body"><h3>{{current_user.name}}</h3></div>
         <div class="card-body"><h3>{{current_user.roll_number}}</h3></div>
