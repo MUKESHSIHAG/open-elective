@@ -1,4 +1,6 @@
-from flask import Blueprint, request, render_template, jsonify, g, redirect, url_for, flash
+from flask import (
+    Blueprint, request, render_template, jsonify, g, redirect, url_for, flash
+    )
 from flask_login import login_required, current_user
 
 from urllib import request as urlrequest
@@ -17,33 +19,49 @@ def save_details():
 
 def get_preferences(roll_number):
     with g.db as conn:
-        cur = conn.execute('''SELECT scode,sname FROM preferences NATURAL JOIN course WHERE roll_number=(?) ORDER BY preference ASC''',(roll_number,))
+        cur = conn.execute('''SELECT scode,sname FROM \
+            preferences NATURAL JOIN course \
+            WHERE roll_number=(?) ORDER BY preference ASC''',
+            (roll_number,))
 
         result = cur.fetchall()
-        return result or get_default_preferences(roll_number)
+        return result or create_default_preferences(roll_number)
 
-def get_default_preferences(rollno):
+def create_default_preferences(rollno):
     with g.db as conn:
         cur = conn.execute('''SELECT scode FROM course''')
         result = cur.fetchall()
-        result = [i[0] for i in result]
-        print(result,'get_default_preferences')
+        branch_and_semester = lambda x: x.startswith(current_user.branch_code) \
+            or (int(x[5])+4) != current_user.semester
+        result = [i[0] for i in result if not branch_and_semester(i[0])]
         update_preferences(rollno,result)
     return get_preferences(rollno)
 
 def update_preferences(roll_number,prefs):
     with g.db as conn:
-        conn.execute('DELETE FROM preferences WHERE roll_number = (?)',(roll_number,))
+        conn.execute('DELETE FROM preferences WHERE roll_number = (?)',
+        (roll_number,))
         for i,sub_code in enumerate(prefs,start=1):
-            try:
-                conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',(roll_number,sub_code,i))
-            except Exception as e:
-                print("Error: ",i,sub_code,e)
+            # try:
+            conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',
+            (roll_number,sub_code,i))
+
+                # Ideally table should be updated
+                # But on update, uniqueness is broken temporarily
+                # No way to defer a UNIQUE constraint in sqlite3 is knwown
+                # conn.execute('''UPDATE preferences SET scode=(?) \
+                # WHERE roll_number=(?) AND preference=(?)''',
+                # (sub_code,roll_number,i))
+
+            # except Exception as e:
+            #     print("Error: ",i,sub_code,e)
 
 def get_cgpi(roll_number):
-    api_url = f'https://nithp.herokuapp.com/api/cgpi/{roll_number}'
+    api_url = f'https://nithp.herokuapp.com/api/search?rollno={roll_number}'
     req = urlrequest.Request(api_url)
     response = ''
     with urlrequest.urlopen(req) as resp:
         response = resp.read().decode()
-    return json.loads(response)
+    response = json.loads(response)
+    cgpi = response['body'][0][response['head'].index('cgpi')]
+    return json.dumps(cgpi)

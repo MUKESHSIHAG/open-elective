@@ -7,7 +7,7 @@ def get_db():
     if "db" not in g:
         db_name = os.getenv('DB_NAME','data.db')
         g.db = sqlite3.connect(
-            "data.db", detect_types=sqlite3.PARSE_DECLTYPES
+            db_name, detect_types=sqlite3.PARSE_DECLTYPES
         )
         # sqlite3.Row can't be serialized 
         # g.db.row_factory = sqlite3.Row
