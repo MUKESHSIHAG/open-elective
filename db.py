@@ -9,6 +9,7 @@ def get_db():
         g.db = sqlite3.connect(
             "data.db", detect_types=sqlite3.PARSE_DECLTYPES
         )
+        # sqlite3.Row can't be serialized 
         # g.db.row_factory = sqlite3.Row
 
     return g.db
@@ -21,7 +22,6 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
-    print()
     with current_app.open_resource("schema.sql") as f:
         content = f.read().decode('utf8')
         db.executescript(content)
@@ -30,7 +30,6 @@ def init_db():
 @with_appcontext
 def init_db_command():
     """Clear the existing data and create new tables."""
-
     init_db()
     click.echo("Initialized the database.")
 

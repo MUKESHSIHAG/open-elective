@@ -56,7 +56,6 @@ try:
 except sqlite3.OperationalError:
     # Assume it's already been created
     pass
-
 # OAuth2 client setup
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -236,4 +235,4 @@ def get_google_provider_cfg():
 
 if __name__ == "__main__":
     # app.run(ssl_context=('cert.pem','key.pem'))
-    app.run(ssl_context='adhoc', debug=True)
+    app.run(ssl_context='adhoc', debug=False)
