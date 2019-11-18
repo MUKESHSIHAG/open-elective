@@ -24,8 +24,7 @@ from user import User
 from backend import backend, get_preferences, get_cgpi
 
 # Configuration
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
@@ -145,7 +144,7 @@ def callback():
             return "Sorry, It's  only for NITians"
 
         elif not (users_email[:2].isnumeric()):
-            return "Don't be Oversmart! it's only for Students"
+            return "Don't Try! it's only for Students"
 
         else:
             # Finding students Rollno. and branch
@@ -221,7 +220,6 @@ def invalid_email():
 @login_required
 def home():
     subjects = get_preferences(current_user.roll_number)
-
     return render_template('student_details.html', subjects = subjects)
 
 @app.route("/logout")
