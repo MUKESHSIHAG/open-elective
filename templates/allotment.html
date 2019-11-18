@@ -43,20 +43,6 @@
   </style>
 </head>
 <body>
-  <!-- <table class="table">
-    <thead>
-      <th>Roll No.</th>
-      <th>Course</th>
-    </thead>
-    <tbody>
-      {% for roll_number,scode in table %}
-      <tr>
-      <td>{{ roll_number }}</td>
-      <td>{{ scode }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table> -->
   <table class="table table-light table-striped table-bordered" id="allotment" style="padding: 20%;">
     <thead style="padding-left: 15%;">
       <tr style="padding-left: 10%;">
@@ -70,41 +56,10 @@
         <td>{{ roll_number }}</th>
         <td>{{ scode }}</td>
       </tr>
-      {% endfor %}
-      <tr>
-          <td>17mi528</th>
-          <td>MEO-316</td>
-      </tr>      
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>     
-      <tr>
-          <td>17mi432</th>
-          <td>MEO-316</td>
-      </tr>  
+      {% endfor %} 
     </tbody>
   </table>
+
   <script>
     $(document).ready(function () {
       $('#allotment').DataTable();
