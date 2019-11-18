@@ -6,6 +6,9 @@ from flask_login import login_required, current_user
 from urllib import request as urlrequest
 import json
 
+# local imports
+from db import get_db
+
 backend = Blueprint('backend',__name__)
 
 @backend.route("/save_details", methods=['POST'])
@@ -65,3 +68,30 @@ def get_cgpi(roll_number):
     response = json.loads(response)
     cgpi = response['body'][0][response['head'].index('cgpi')]
     return json.dumps(cgpi)
+
+@backend.route('/do_allotment')
+# @login_required
+def do_allotment():
+    # Start with highest cgpi
+    # allot the lowest preference possible
+    get_db() # Why g.db is not available? Due to flask_login?
+    MAX_CLASS_SIZE = 1 # Maximum no. of students in a class
+
+    with g.db as conn:
+        conn.execute('''DELETE FROM alloted''')
+
+        result = conn.execute('''SELECT roll_number,scode,preference,cgpi 
+        FROM preferences NATURAL JOIN user ORDER BY cgpi DESC, preference ASC''').fetchall()
+
+        for roll_number,scode,_,_ in result:
+            done = conn.execute('''SELECT roll_number FROM alloted WHERE roll_number=(?)''',(roll_number,)).fetchone()
+
+            if not done:
+                class_size = conn.execute('''SELECT count(*) from alloted where scode=(?)''',(scode,)).fetchone()
+                class_size = class_size[0]
+
+                if class_size < MAX_CLASS_SIZE:
+                    conn.execute('''INSERT INTO alloted VALUES (?,?)''',(roll_number,scode))
+        
+        table = conn.execute('''SELECT * FROM alloted''').fetchall()
+        return render_template('allotment.html',table=table)

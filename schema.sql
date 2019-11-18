@@ -21,6 +21,11 @@ CREATE TABLE course (
     sname TEXT,
     PRIMARY KEY (scode)
 );
+CREATE TABLE alloted (
+    roll_number TEXT,
+    scode TEXT,
+    PRIMARY KEY (roll_number)
+);
 INSERT INTO course VALUES
 ('PHO-325','NUCLEAR SCIENCE AND ITS APPLICATIONS'),
 ('PHO-316','QUANTUM MECHANICS & ITS APPLICATIONS'),

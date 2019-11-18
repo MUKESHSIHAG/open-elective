@@ -24,7 +24,8 @@ from user import User
 from backend import backend, get_preferences, get_cgpi
 
 # Configuration
-from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
 
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
@@ -232,5 +233,11 @@ def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 if __name__ == "__main__":
+    # from db import get_db
+    # from backend import do_allotment
+    # with app.app_context():
+    #     get_db()
+    #     do_allotment()
+    
     # app.run(ssl_context=('cert.pem','key.pem'))
     app.run(ssl_context='adhoc', debug=False)

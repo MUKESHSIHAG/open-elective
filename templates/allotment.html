@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Allotment Result</title>
+</head>
+<body>
+  <table>
+    <thead>
+      <th>Roll No.</th>
+      <th>Course</th>
+    </thead>
+    <tbody>
+      {% for roll_number,scode in table %}
+      <tr>
+      <td>{{ roll_number }}</td>
+      <td>{{ scode }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
