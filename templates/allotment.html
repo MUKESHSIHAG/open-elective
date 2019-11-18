@@ -4,10 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
   <title>Allotment Result</title>
+
+  <style>
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+      bottom: .5em;
+    }
+    .dataTables_filter {
+      float: left;
+      padding: 6px; 
+      border: none;
+      margin-top: 8px;
+      margin-right: 16px;
+      font-size: 17px;
+      }
+    .dataTables_length { 
+      float: right;
+      padding: 6px; 
+      border: none;
+      margin-top: 8px;
+      margin-right: 16px;
+      font-size: 17px;
+      border-radius: 20px;
+     }
+     .dataTables_info, .dataTables_paginate, .paging_simple_numbers { display: none; }
+  </style>
 </head>
 <body>
-  <table>
+  <!-- <table class="table">
     <thead>
       <th>Roll No.</th>
       <th>Course</th>
@@ -20,6 +56,60 @@
       </tr>
       {% endfor %}
     </tbody>
+  </table> -->
+  <table class="table table-light table-striped table-bordered" id="allotment" style="padding: 20%;">
+    <thead style="padding-left: 15%;">
+      <tr style="padding-left: 10%;">
+        <th scope="col">Roll Number</th>
+        <th scope="col">Course</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for roll_number,scode in table %}
+      <tr>
+        <td>{{ roll_number }}</th>
+        <td>{{ scode }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+          <td>17mi528</th>
+          <td>MEO-316</td>
+      </tr>      
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>     
+      <tr>
+          <td>17mi432</th>
+          <td>MEO-316</td>
+      </tr>  
+    </tbody>
   </table>
+  <script>
+    $(document).ready(function () {
+      $('#allotment').DataTable();
+      // $('.dataTables_length').addClass('bs-select');
+    });
+  </script>
 </body>
 </html>
