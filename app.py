@@ -74,7 +74,7 @@ def index():
         return render_template('login.html')
         # return "<a href='/login'>login</a>"
 
-@app.route("/login")
+@app.route("/login") # 🤣🤣🤣 (also checking unicode support)
 def login():
     # Find out what URL to hit for Google login
     try:
@@ -151,6 +151,7 @@ def callback():
             return "Don't Try! it's only for Students"
 
         else:
+            print(f"{users_email} is valid.")
             # Finding students Rollno. and branch
             current_year = str(datetime.datetime.now().year)[2:]
             current_month = datetime.datetime.now().month
@@ -202,7 +203,8 @@ def callback():
                 id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, branch_code=branch_code, semester=student_sem, cgpi=student_cgpi
             )
             login_user(user)
-
+            
+            print("User login success")
             # Doesn't exist? Add to database
             if not User.get(unique_id):
                 User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
