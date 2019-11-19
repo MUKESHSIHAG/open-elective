@@ -41,14 +41,16 @@
     <thead>
       <tr>
         <th scope="col">Roll Number&nbsp<i class="fa fa-sort"></i></th>
-        <th scope="col">Course&nbsp<i class="fa fa-sort"></i></th>
+        <th scope="col">Code&nbsp<i class="fa fa-sort"></i></th>
+        <th scope="col">Course Title&nbsp<i class="fa fa-sort"></i></th>
       </tr>
     </thead>
     <tbody>
-      {% for roll_number,scode in table %}
+      {% for roll_number,scode,sname in table %}
       <tr>
-        <td>{{ roll_number }}</th>
+        <td>{{ roll_number }}</td>
         <td>{{ scode }}</td>
+        <td>{{ sname }}</td>
       </tr>
       {% endfor %}
     </tbody>

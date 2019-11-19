@@ -93,6 +93,22 @@ def do_allotment():
                 if class_size < MAX_CLASS_SIZE:
                     conn.execute('''INSERT INTO alloted VALUES (?,?)''',(roll_number,scode))
         
-        table = conn.execute('''SELECT * FROM alloted''').fetchall()
-        table = [('17mi432','CEO-312'),('17MI528','EEO-312(a)')]*100 # for testing purposes only
+        table = conn.execute('''SELECT roll_number,scode,sname FROM alloted NATURAL JOIN course''').fetchall()
+        # table = ((''))
+#         table = [
+# ('17mi510','PHO-325','NUCLEAR SCIENCE AND ITS APPLICATIONS'),
+# ('17mi526','PHO-316','QUANTUM MECHANICS & ITS APPLICATIONS'),
+# ('17mi528','MSO-326(b)','FUEL CELL AND HYDROGEN ENERGY'),
+# ('17mi527','MSO-326(a)','NANO-MATERIALS & TECHNOLOGY'),
+# ('17701','MSO-317','FUEL CELL & HYDROGEN ENERGY'),
+# ('17566','MEO-325','MODELLING AND SIMULATION'),
+# ('17mi432','MEO-316','QUALITY ENGINEERING'),
+# ('17mi532','PHO-325','NUCLEAR SCIENCE AND ITS APPLICATIONS'),
+# ('17432','PHO-316','QUANTUM MECHANICS & ITS APPLICATIONS'),
+# ('17123','MSO-326(b)','FUEL CELL AND HYDROGEN ENERGY'),
+# ('17423','MSO-326(a)','NANO-MATERIALS & TECHNOLOGY'),
+# ('17323','MSO-317','FUEL CELL & HYDROGEN ENERGY'),
+# ('17683','MEO-325','MODELLING AND SIMULATION'),
+# ('17221','MEO-316','QUALITY ENGINEERING')]
+        # table = [('17mi432','CEO-312','asdf'),('17MI528','EEO-312(a)','Neural Network')]*30 # for testing purposes only
         return render_template('allotment.html',table=table)
