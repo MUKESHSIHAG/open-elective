@@ -37,16 +37,16 @@
 </head>    
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top  row">
-      <button class="btn btn-primary" style=" margin-left: 5%; margin-top: 1%; margin-bottom: 1%;" ><a class="text-light" target="blank" style="text-decoration: none;" href="/do_allotment">See Result</a></button> 
+    <a class="text-light" target="blank" style="text-decoration: none;" href="/do_allotment"><button class="btn btn-primary" style=" margin-left: 5%; margin-top: 1%; margin-bottom: 1%;" >See Result</button></a> 
       <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span> -->
-      </button>
+      <!-- </button> -->
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 80%; margin-top: 1%; margin-bottom: 1%;">
-        <form class="form-inline my-2 my-lg-0">
+        <!-- <form class="form-inline my-2 my-lg-0"> -->
           <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-          <button class="btn btn-success my-2 my-sm-0" type="submit"><a class="text-light" style="text-decoration: none;" href="/logout">Logout</a></button>
-        </form>
+          <a class="text-light" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success my-2 my-sm-0">Logout</button></a>
+        <!-- </form> -->
       </div>
     </nav>
   <!-- <div class="container navbar-light bg-dark col-md-12 fixed-top header" style="height: 10%;">
