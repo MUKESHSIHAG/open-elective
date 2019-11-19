@@ -94,4 +94,5 @@ def do_allotment():
                     conn.execute('''INSERT INTO alloted VALUES (?,?)''',(roll_number,scode))
         
         table = conn.execute('''SELECT * FROM alloted''').fetchall()
+        table = [('17mi432','CEO-312'),('17MI528','EEO-312(a)')]*100 # for testing purposes only
         return render_template('allotment.html',table=table)
