@@ -27,8 +27,9 @@ def init_db():
         db.executescript(content)
 
 @click.command("init-db")
+@click.argument('fake_arg',default='fake_arg')
 @with_appcontext
-def init_db_command():
+def init_db_command(fake_arg):
     """Clear the existing data and create new tables."""
     init_db()
     click.echo("Initialized the database.")
