@@ -25,13 +25,20 @@
   }
   
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
+  @media screen and (max-width: 500px) {
+    body { background-color: greenyellow;}
+    #choice {visibility: hidden; margin-left: 0%;}
+    #logout {float: right; padding-top: 0%; margin-right: 10%;}
+    #oeres {float: left; padding-top: 5%; width: 100px; margin-left: 10%;}
+    .header { visibility: hidden;}
+  }
 </style>  
 </head>    
 <body>
-  <div class="container navbar-light bg-dark col-md-12 fixed-top" style="height: 10%;">
-      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 12%; padding-top:10px;"></span></h1></a>
-      <a href="#"><h1><span class="font-weight-light float-left text-white" style="margin-left: 33%;">SELECT CHOICES</span></h1></a>
-      <a href="/logout"><span class="navbar-brand mb-0 h1 btn btn-warning" style="margin-left:16%; margin-top: 10px;">Logout</span></button></a>
+  <div class="container navbar-light bg-dark col-md-12 fixed-top header" style="height: 10%;">
+      <a href="/do_allotment" id="oeres" target="blank"><h4><span class="font-weight-light float-left text-info " style="margin-left: 10%; padding-top:1%;">OE-Result</span></h4></a>
+      <a href="#" id="choice"><h1><span class="font-weight-light float-left text-white" style="margin-left: 33%;">SELECT CHOICES</span></h1></a>
+      <a href="/logout" id="logout"><span class="navbar-brand mb-0 h1 btn btn-warning" style="margin-left:16%; margin-top: 10px;">Logout</span></button></a>
   </div>
   <div class="col-md-12" style="padding-right:25%;">
     <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
