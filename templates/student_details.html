@@ -27,19 +27,33 @@
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
   @media screen and (max-width: 500px) {
     /* body { background-color: greenyellow;} */
-    #choice {visibility: hidden; margin-left: 0%;}
+    /* #choice {visibility: hidden; margin-left: 0%;}
     #logout {float: right; padding-top: 0%; margin-right: 10%;}
-    #oeres {float: left; padding-top: 5%; width: 100px; margin-left: 10%;}
+    #oeres {float: left; padding-top: 5%; width: 100px; margin-left: 10%;} */
     /* .header { visibility: hidden;} */
+    .collapse { margin-left: 20%;}
   }
 </style>  
 </head>    
 <body>
-  <div class="container navbar-light bg-dark col-md-12 fixed-top header" style="height: 10%;">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top  row">
+      <button class="btn btn-primary" style=" margin-left: 5%; margin-top: 1%; margin-bottom: 1%;" ><a class="text-light" style="text-decoration: none;" href="/do_allotment">See Result</a></button> 
+      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span> -->
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 80%; margin-top: 1%; margin-bottom: 1%;">
+        <form class="form-inline my-2 my-lg-0">
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+          <button class="btn btn-success my-2 my-sm-0" type="submit"><a class="text-light" style="text-decoration: none;" href="/logout">Logout</a></button>
+        </form>
+      </div>
+    </nav>
+  <!-- <div class="container navbar-light bg-dark col-md-12 fixed-top header" style="height: 10%;">
       <a href="/do_allotment" id="oeres" target=""><span class="font-weight-light float-left text-info " style="margin-left: 10%; padding-top:1%;"><button class="btn btn-primary">See Result</button></span></a>
       <a href="#" id="choice"><h1><span class="font-weight-light float-left text-white" style="margin-left: 33%;">SELECT CHOICES</span></h1></a>
       <a href="/logout" id="logout"><span class="navbar-brand mb-0 h1 btn btn-warning" style="margin-left:16%; margin-top: 10px;">Logout</span></button></a>
-  </div>
+  </div> -->
   <div class="col-md-12" style="padding-right:25%;">
     <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
       <div class="card-header">

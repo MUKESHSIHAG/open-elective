@@ -77,18 +77,21 @@ def index():
 @app.route("/login")
 def login():
     # Find out what URL to hit for Google login
-    google_provider_cfg = get_google_provider_cfg()
-    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    try:
+        google_provider_cfg = get_google_provider_cfg()
+        authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    # Use library to construct the request for login and provide
-    # scopes that let you retrieve user's profile from Google
-    request_uri = client.prepare_request_uri(
-        authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
-        # redirect_uri="/callback",
-        scope=["openid", "email", "profile"],
-    )
-    return redirect(request_uri)
+        # Use library to construct the request for login and provide
+        # scopes that let you retrieve user's profile from Google
+        request_uri = client.prepare_request_uri(
+            authorization_endpoint,
+            redirect_uri=request.base_url + "/callback",
+            # redirect_uri="/callback",
+            scope=["openid", "email", "profile"],
+        )
+        return redirect(request_uri)
+    except (requests.exceptions.ConnectionError):
+        return '<html><body><center><h1 style="margin-top:10%">Check Your Network Connection</h1></center</body></html>'
 
 @app.route("/login/callback")
 def callback():
@@ -232,6 +235,10 @@ def logout():
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
+@app.errorhandler(500)
+def internal_error(error):
+    return "500 error"
+
 if __name__ == "__main__":
     # from db import get_db
     # from backend import do_allotment
@@ -240,4 +247,4 @@ if __name__ == "__main__":
     #     do_allotment()
     
     # app.run(ssl_context=('cert.pem','key.pem'))
-    app.run(ssl_context='adhoc', debug=False)
+    app.run(ssl_context='adhoc', debug=True)
