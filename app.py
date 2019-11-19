@@ -33,7 +33,7 @@ GOOGLE_DISCOVERY_URL = (
 
 # Flask app setup
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY") or "victoria's secret"
+app.secret_key = os.environ.get("SECRET_KEY") or "local-secret"
 #  or os.urandom(24)
 
 #registering blueprints
