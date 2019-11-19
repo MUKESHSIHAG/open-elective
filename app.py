@@ -46,6 +46,7 @@ login_manager.init_app(app)
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    print("Unauthorized access, Redirecting to index")
     # return "You must be logged in to access this content.", 403
     # return render_template('login.html')
     return redirect(url_for('index'))
