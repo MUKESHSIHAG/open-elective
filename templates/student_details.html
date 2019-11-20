@@ -25,23 +25,16 @@
   }
   
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
-  @media screen and (max-width: 500px) {
-    /* body { background-color: greenyellow;} */
-    /* #choice {visibility: hidden; margin-left: 0%;}
-    #logout {float: right; padding-top: 0%; margin-right: 10%;}
-    #oeres {float: left; padding-top: 5%; width: 100px; margin-left: 10%;} */
-    /* .header { visibility: hidden;} */
-    .collapse { margin-left: 20%;}
-  }
+  /* .btn-success { margin-right: 0%; margin-left: auto; float: right;} */
 </style>  
 </head>    
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" style="height: auto;">
-    <a class="text-light" target="blank" style="text-decoration: none; margin: 1%;" href="/do_allotment"><button class="btn btn-primary" style="" >See Result</button></a> 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 80%;">
-          <a class="text-light" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success my-2 my-sm-0">Logout</button></a>
-      </div>
-    </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top row" style="height: auto;">
+    <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/do_allotment"><button class="btn btn-primary">See Result</button></a> 
+    <!-- <div class="collapse navbar-collapse col-xs-6 float-right" id="navbarSupportedContent"> -->
+        <a class="text-light" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success">Logout</button></a>
+    <!-- </div> -->
+  </nav>
   <div class="col-md-12" style="padding-right:25%;">
     <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
       <div class="card-header">
@@ -66,7 +59,7 @@
             </li>
             {% endfor %}</br>
           </ol>
-          <input type="submit" value="Submit" class="btn btn-primary" style="width: 20%; margin-bottom: 5%; margin-left: 30%;"/>
+          <input type="submit" value="Submit" class="btn submit btn-primary" style="margin-bottom: 5%; margin-left: 30%;"/>
       </form>
     </div>
     <div class="col-md-"></div>
