@@ -26,6 +26,7 @@ from backend import backend, get_preferences, get_cgpi
 # Configuration
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+# from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
@@ -236,6 +237,10 @@ def invalid_email():
 def home():
     subjects = get_preferences(current_user.roll_number)
     return render_template('student_details.html', subjects = subjects)
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
 
 @app.route("/logout")
 @login_required

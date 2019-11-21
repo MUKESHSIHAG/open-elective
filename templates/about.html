@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <script src="{{ url_for('.static',filename='p1.jpeg') }}"></script> -->
+    <title>Document</title>
+    <style>
+        .pic:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+    <center><h1 class="text-danger">We Are Team COMPLEX</h1></center>\
+    <div class="row justify-content-center">
+        <div class="card col-md-3 pic" style="width: 20rem;">
+            <img src="{{ url_for('static', filename = 'p1.jpeg') }}" class="card-img-top" alt="complex">
+            <div class="card-body">
+                <p class="card-text">Mukesh Sihag: A full stack developer. Always ready to learn something new and want to hacker</p>
+            </div>
+        </div>
+        <!-- <div class="col-md-1"></div> -->
+        <div class="card col-md-3 pic" style="width: 20rem; margin-left: 5%; margin-right: 5%;">
+            <img src="{{ url_for('static', filename = 'p2.jpeg') }}" class="card-img-top" alt="complex">
+            <div class="card-body">
+                <p class="card-text">Rohit Hill: A man with deep knowledge of everything and a great debugger</p>
+            </div>
+        </div>
+        <!-- <div class="col-md-1"></div> -->
+        <div class="card col-md-3 pic" style="width: 20rem;">
+            <img src="{{ url_for('static', filename = 'p3.jpeg') }}" class="card-img-top" alt="complex">
+            <div class="card-body">
+                <p class="card-text">Gaurav Choudhary: Full of curious questions and great startup ideas</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

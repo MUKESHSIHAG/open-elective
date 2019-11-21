@@ -26,14 +26,14 @@
   
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
   /* .btn-success { margin-right: 0%; margin-left: auto; float: right;} */
+
 </style>  
 </head>    
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top row" style="height: auto;">
     <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/do_allotment"><button class="btn btn-primary">See Result</button></a> 
-    <!-- <div class="collapse navbar-collapse col-xs-6 float-right" id="navbarSupportedContent"> -->
-        <a class="text-light" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success">Logout</button></a>
-    <!-- </div> -->
+        <!-- <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/about"><button class="btn btn-primary">AboutUs</button></a>  -->
+        <a class="text-light col-xs-6" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success">Logout</button></a>
   </nav>
   <div class="col-md-12" style="padding-right:25%;">
     <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-5 float-right text-center font-weight-light" style="margin-top: 7%;">
+    <div class="col-md-5 float-right text-center font-weight-light" style="margin-top: 10%;">
       <form action="{{ url_for('backend.save_details') }}" method="POST">
         <ol class="list-group" id="myList" ></br>
           {% for scode,subject in subjects %}
