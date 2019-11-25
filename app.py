@@ -105,6 +105,7 @@ def login():
 
 @app.route("/login/callback")
 def callback():
+    print("Reached at login/callback")
     # Get authorization code Google sent back to you
     code = request.args.get("code")
 
@@ -219,12 +220,13 @@ def callback():
             if not User.get(unique_id):
                 User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
             # Begin user session by logging the user in
+            
             if student_year == '1':
                 return "You have enough time for open elective choice! Now just focus on your study only :)"
             elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
                 return redirect(url_for('home'))
             else:
-                return "Open elctive is not for you baby"
+                return "Open elective is not for you baby"
     except:
         redirect(url_for('invalid_email'))
 
