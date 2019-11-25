@@ -16,8 +16,14 @@ backend = Blueprint('backend',__name__)
 def save_details():
     roll_number = current_user.roll_number
     final_list = request.form.getlist('subjects[]')
-    update_preferences(roll_number,final_list)
-    flash('Preferences updated successfully!')
+    
+    try:
+        update_preferences(roll_number,final_list)
+        flash('Preferences updated successfully!')
+    except Exception as e:
+        print(e)
+        flash('There was some error')
+    
     return redirect(url_for('home'))
 
 def get_preferences(roll_number):
@@ -42,13 +48,22 @@ def create_default_preferences(rollno):
 
 def update_preferences(roll_number,prefs):
     with g.db as conn:
+        subs = conn.execute('''SELECT scode FROM preferences 
+                            WHERE roll_number = (?)''',
+                            (roll_number,)).fetchall()
+
+        subs = [i[0] for i in subs]
+
+        assert sorted(subs) == sorted(prefs) # To prevent custom POST request
+        
         conn.execute('DELETE FROM preferences WHERE roll_number = (?)',
         (roll_number,))
+
         for i,sub_code in enumerate(prefs,start=1):
-            # try:
             conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',
             (roll_number,sub_code,i))
 
+            # try:
                 # Ideally table should be updated
                 # But on update, uniqueness is broken temporarily
                 # No way to defer a UNIQUE constraint in sqlite3 is knwown
@@ -63,10 +78,13 @@ def get_cgpi(roll_number):
     api_url = f'https://nithp.herokuapp.com/api/search?rollno={roll_number}'
     req = urlrequest.Request(api_url)
     response = ''
+
     with urlrequest.urlopen(req) as resp:
         response = resp.read().decode()
+    
     response = json.loads(response)
     cgpi = response['body'][0][response['head'].index('cgpi')]
+    
     return json.dumps(cgpi)
 
 @backend.route('/do_allotment')

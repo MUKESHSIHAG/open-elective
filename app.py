@@ -263,4 +263,4 @@ if __name__ == "__main__":
     #     do_allotment()
     
     # app.run(ssl_context=('cert.pem','key.pem'))
-    app.run(ssl_context='adhoc', debug=True)
+    app.run(ssl_context='adhoc', debug=0)
