@@ -24,9 +24,9 @@ from user import User
 from backend import backend, get_preferences, get_cgpi
 
 # Configuration
-# GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
-# GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
-from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+# from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
