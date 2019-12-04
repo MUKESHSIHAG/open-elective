@@ -24,9 +24,9 @@ from user import User
 from backend import backend, get_preferences, get_cgpi
 
 # Configuration
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
-# from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+# GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',None) 
+# GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
+from google import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
@@ -84,7 +84,7 @@ def index():
         return render_template('login.html')
         # return "<a href='/login'>login</a>"
 
-@app.route("/login") # 🤣🤣🤣 (also checking unicode support)
+@app.route("/login") #(also checking unicode support)
 def login():
     # Find out what URL to hit for Google login
     try:
@@ -223,7 +223,9 @@ def callback():
             
             if student_year == '1':
                 return "You have enough time for open elective choice! Now just focus on your study only :)"
-            elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
+            # elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
+            #     return redirect(url_for('home'))
+            elif(str(roll_number).startswith("17")):
                 return redirect(url_for('home'))
             else:
                 return "Open elective is not for you baby"
