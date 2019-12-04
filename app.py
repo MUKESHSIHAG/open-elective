@@ -223,12 +223,12 @@ def callback():
             
             if student_year == '1':
                 return "You have enough time for open elective choice! Now just focus on your study only :)"
-            # elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
-            #     return redirect(url_for('home'))
-            elif(str(roll_number).startswith("17")):
+            elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
                 return redirect(url_for('home'))
+            # elif(str(roll_number).startswith("17")):
+            #     return redirect(url_for('home'))
             else:
-                return "Open elective is not for you baby"
+                return "Open elective is not for you"
     except:
         redirect(url_for('invalid_email'))
 
@@ -267,4 +267,4 @@ if __name__ == "__main__":
     #     do_allotment()
     
     # app.run(ssl_context=('cert.pem','key.pem'))
-    app.run(ssl_context='adhoc', debug=0)
+    app.run(ssl_context='adhoc', debug=1)

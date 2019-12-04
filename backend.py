@@ -34,20 +34,19 @@ def get_preferences(roll_number):
             (roll_number,))
 
         result = cur.fetchall()
+        print(result)
         return result or create_default_preferences(roll_number)
 
 def create_default_preferences(rollno):
     with g.db as conn:
         cur = conn.execute('''SELECT scode FROM course''')
         prefs = cur.fetchall()
-        branch_and_semester = lambda x: x.startswith(current_user.branch_code) \
-            or (int(x[5])+4) != current_user.semester
-        prefs = [i[0] for i in prefs if not branch_and_semester(i[0])]
-        
+        branch = lambda x: x.startswith(current_user.branch_code)
+        prefs = [i[0] for i in prefs if not branch(i[0])]
+
         for i,sub_code in enumerate(prefs,start=1):
             conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',
             (rollno,sub_code,i))
-
         # update_preferences(rollno,result)
     return get_preferences(rollno)
 
