@@ -1,9 +1,10 @@
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.png"/>
     <title>{{current_user.name}} details</title>
 <style>
   body 
@@ -26,14 +27,22 @@
   
   li:nth-child(odd) { background: silver; color: rgb(100, 1, 1);}
   /* .btn-success { margin-right: 0%; margin-left: auto; float: right;} */
-
+@media screen and (max-width: 500px){
+  .logout {margin-right: 5%;}
+  .container {margin-top: 5%;}
+  .list-group {margin-top: 11%;}
+  #timer {margin-left: 5%;}
+}
+.logout {margin-right: 5%;}
+#timer {margin-left: 5%;}
 </style>  
 </head>    
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top row" style="height: auto;">
-    <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/do_allotment"><button class="btn btn-primary">Allotment Result</button></a> 
-        <!-- <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/about"><button class="btn btn-primary">AboutUs</button></a>  -->
-        <a class="text-light col-xs-6" style="text-decoration: none;" href="{{ url_for('logout')}}"><button class="btn btn-success">Logout</button></a>
+    <!-- <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/do_allotment"><button class="btn btn-primary">Allotment Result</button></a>  -->
+      <h4 style="margin-top:1%" class="text-danger col-md" id="timer"></h4>
+      <!-- <a class="text-light seeres col-md-10 col-xs-6" target="blank" style="text-decoration: none; margin: 1%;" href="/about"><button class="btn btn-primary">AboutUs</button></a>  -->
+      <a class="text-light logout col-xs-5" style="text-decoration: none; margin-top:1%; margin-bottom: 1%;" href="{{ url_for('logout')}}"><button class="btn btn-success">Logout</button></a>
   </nav>
   <div class="col-md-12" style="padding-right:25%;">
     <div class="container float-left col-md-3 z-depth-5 text-center" style=" position:fixed; background: #fffafa; padding-top: 8%; margin-left: 3%;"> 
@@ -50,7 +59,7 @@
       </div>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-5 float-right text-center font-weight-light" style="margin-top: 10%;">
+    <div class="col-md-5 details float-right text-center font-weight-light" style="margin-top: 10%;">
       <form action="{{ url_for('backend.save_details') }}" method="POST">
         <ol class="list-group" id="myList" ></br>
           {% for scode,subject in subjects %}
@@ -89,6 +98,36 @@
   </script>
   {% endif %}
   {% endwith %}
-  
+    
+  <script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("Dec 10, 2019 ").getTime();
+    
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+    
+      // Get today's date and time
+      var now = new Date().getTime();
+        
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+        
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+      // Output the result in an element with id="demo"
+      document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s ";
+        
+      // If the count down is over, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "EXPIRED";
+      }
+    }, 1000);
+    </script>
 </body>
 </html>
