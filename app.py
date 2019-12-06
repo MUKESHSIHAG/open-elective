@@ -6,8 +6,9 @@ import os, datetime
 import sqlite3
 import requests
 
+
 # Third party libraries
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template, g
 from flask_login import (
     LoginManager,
     current_user,
@@ -17,9 +18,15 @@ from flask_login import (
 )
 from oauthlib.oauth2 import WebApplicationClient
 import requests
+import psycopg2
 
+def get_db():
+    if "db" not in g:
+        DATABASE_URL = os.environ['DATABASE_URL']
+        g.db = psycopg2.connect(DATABASE_URL,sslmode='prefer')
+    return g.db
 # Internal imports
-from db import init_db_command
+# from db import init_db_command
 from user import User
 from backend import backend, get_preferences, get_cgpi
 
@@ -31,6 +38,7 @@ GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET',None)
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
+
 
 # Flask app setup
 app = Flask(__name__)
@@ -54,11 +62,12 @@ def unauthorized():
     return redirect(url_for('index'))
 
 # Naive database setup
-try:
-    init_db_command()
-except sqlite3.OperationalError:
-    # Assume it's already been created
-    pass
+# try:
+#     init_db_command()
+# except Exception as e:
+#     print(e)
+#     # Assume it's already been created
+#     pass
 # OAuth2 client setup
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -215,10 +224,14 @@ def callback():
             )
             login_user(user)
             
-            print("User login success")
             # Doesn't exist? Add to database
-            if not User.get(unique_id):
-                User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
+            try:
+                if not User.get(unique_id):
+                    User.create(unique_id, users_name, users_email, roll_number, branch_name, branch_code, student_sem, student_cgpi)
+            except Exception as e:
+                print(e)
+                return "FFFF"
+            print("User login success")
             # Begin user session by logging the user in
             
             if student_year == '1':
@@ -267,4 +280,4 @@ if __name__ == "__main__":
     #     do_allotment()
     
     # app.run(ssl_context=('cert.pem','key.pem'))
-    app.run(ssl_context='adhoc', debug=1)
+    app.run(ssl_context='adhoc', debug=0)

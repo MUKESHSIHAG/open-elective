@@ -5,9 +5,10 @@ from flask_login import login_required, current_user
 
 from urllib import request as urlrequest
 import json
+import os
 
 # local imports
-from db import get_db
+from app import get_db
 
 backend = Blueprint('backend',__name__)
 
@@ -28,43 +29,47 @@ def save_details():
 
 def get_preferences(roll_number):
     with g.db as conn:
-        cur = conn.execute('''SELECT scode,sname FROM \
+        cur = conn.cursor()
+        cur.execute('''SELECT scode,sname FROM \
             preferences NATURAL JOIN course \
-            WHERE roll_number=(?) ORDER BY preference ASC''',
+            WHERE roll_number=(%s) ORDER BY preference ASC''',
             (roll_number,))
 
         result = cur.fetchall()
-        print(result)
+        # print('here',result)
         return result or create_default_preferences(roll_number)
 
 def create_default_preferences(rollno):
     with g.db as conn:
-        cur = conn.execute('''SELECT scode FROM course''')
+        cur = conn.cursor()
+        cur.execute('''SELECT scode FROM course''')
         prefs = cur.fetchall()
         branch = lambda x: x.startswith(current_user.branch_code)
         prefs = [i[0] for i in prefs if not branch(i[0])]
 
         for i,sub_code in enumerate(prefs,start=1):
-            conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',
+            cur.execute('''INSERT INTO preferences VALUES (%s,%s,%s)''',
             (rollno,sub_code,i))
         # update_preferences(rollno,result)
     return get_preferences(rollno)
 
 def update_preferences(roll_number,prefs):
     with g.db as conn:
-        subs = conn.execute('''SELECT scode FROM preferences 
-                            WHERE roll_number = (?)''',
-                            (roll_number,)).fetchall()
+        cur = conn.cursor()
+        cur.execute('''SELECT scode FROM preferences 
+                        WHERE roll_number = (%s)''',
+                        (roll_number,))
+        subs = cur.fetchall()
 
         subs = [i[0] for i in subs]
 
         assert sorted(subs) == sorted(prefs) # To prevent custom POST request
         
-        conn.execute('DELETE FROM preferences WHERE roll_number = (?)',
+        cur.execute('DELETE FROM preferences WHERE roll_number = (%s)',
         (roll_number,))
 
         for i,sub_code in enumerate(prefs,start=1):
-            conn.execute('''INSERT INTO preferences VALUES (?,?,?)''',
+            cur.execute('''INSERT INTO preferences VALUES (%s,%s,%s)''',
             (roll_number,sub_code,i))
 
             # try:
@@ -77,7 +82,7 @@ def update_preferences(roll_number,prefs):
 
             # except Exception as e:
             #     print("Error: ",i,sub_code,e)
-
+        conn.commit()
 def get_cgpi(roll_number):
     api_url = f'https://nithp.herokuapp.com/api/search?rollno={roll_number}'
     req = urlrequest.Request(api_url)
@@ -97,25 +102,31 @@ def do_allotment():
     # Start with highest cgpi
     # allot the lowest preference possible
     get_db() # Why g.db is not available? Due to flask_login?
-    MAX_CLASS_SIZE = 1 # Maximum no. of students in a class
-
+    MAX_CLASS_SIZE = int(os.getenv('MAX_CLASS_SIZE',1))  # Maximum no. of students in a class
+    print("MAX_CLASS_SIZE=",MAX_CLASS_SIZE)
     with g.db as conn:
-        conn.execute('''DELETE FROM alloted''')
+        cur = conn.cursor()
+        cur.execute('''DELETE FROM alloted''')
 
-        result = conn.execute('''SELECT roll_number,scode,preference,cgpi 
-        FROM preferences NATURAL JOIN user ORDER BY cgpi DESC, preference ASC''').fetchall()
+        cur.execute('''SELECT roll_number,scode,preference,cgpi 
+        FROM preferences NATURAL JOIN users ORDER BY cgpi DESC, preference ASC''')
+        result = cur.fetchall()
 
         for roll_number,scode,_,_ in result:
-            done = conn.execute('''SELECT roll_number FROM alloted WHERE roll_number=(?)''',(roll_number,)).fetchone()
+            cur.execute('''SELECT roll_number FROM alloted WHERE roll_number=(%s)''',(roll_number,))
+            done = cur.fetchone()
 
             if not done:
-                class_size = conn.execute('''SELECT count(*) from alloted where scode=(?)''',(scode,)).fetchone()
+                cur.execute('''SELECT count(*) from alloted where scode=(%s)''',(scode,))
+                class_size = cur.fetchone()
+
                 class_size = class_size[0]
 
                 if class_size < MAX_CLASS_SIZE:
-                    conn.execute('''INSERT INTO alloted VALUES (?,?)''',(roll_number,scode))
+                    cur.execute('''INSERT INTO alloted VALUES (%s,%s)''',(roll_number,scode))
         
-        table = conn.execute('''SELECT roll_number,scode,sname FROM alloted NATURAL JOIN course''').fetchall()
+        cur.execute('''SELECT roll_number,scode,sname FROM alloted NATURAL JOIN course''')
+        table = cur.fetchall()
         # table = ((''))
 #         table = [
 # ('17mi510','PHO-325','NUCLEAR SCIENCE AND ITS APPLICATIONS'),

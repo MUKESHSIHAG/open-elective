@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS users (
   id TEXT NOT NULL,
   name TEXT NOT NULL,
   email TEXT UNIQUE PRIMARY KEY,
@@ -8,7 +8,7 @@ CREATE TABLE user (
   semester INTEGER,
   cgpi REAL
 );
-CREATE TABLE preferences (
+CREATE TABLE IF NOT EXISTS preferences (
     roll_number TEXT,
     scode TEXT,
     preference INTEGER,
@@ -16,12 +16,12 @@ CREATE TABLE preferences (
     UNIQUE (roll_number,scode),
     UNIQUE (roll_number,preference)
 );
-CREATE TABLE course (
+CREATE TABLE IF NOT EXISTS course (
     scode TEXT,
     sname TEXT,
     PRIMARY KEY (scode)
 );
-CREATE TABLE alloted (
+CREATE TABLE IF NOT EXISTS alloted (
     roll_number TEXT,
     scode TEXT,
     PRIMARY KEY (roll_number)
