@@ -60,6 +60,9 @@
     </div>
     <div class="col-md-1"></div>
     <div class="col-md-5 details float-right text-center font-weight-light" style="margin-top: 10%;">
+      <div class="card-header" style="width: 130%;">
+        <h5>1st preference at Top and Last at Bottom, Drag and Drop to Choose</h5>
+      </div>
       <form action="{{ url_for('backend.save_details') }}" method="POST">
         <ol class="list-group" id="myList" ></br>
           {% for scode,subject in subjects %}
