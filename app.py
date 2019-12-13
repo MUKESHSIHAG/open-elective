@@ -259,6 +259,10 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route("/syllabus")
+def syllabus():
+    return render_template('syllabus.html')
+
 @app.route("/logout")
 @login_required
 def logout():
