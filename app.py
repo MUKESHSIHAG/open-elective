@@ -236,7 +236,7 @@ def callback():
             
             if student_year == '1':
                 return "You have enough time for open elective choice! Now just focus on your study only :)"
-            elif (student_sem == '5' or student_sem == '6'):
+            elif (student_sem == '7' or student_sem == '6'):
                 return redirect(url_for('home'))
             # elif(str(roll_number).startswith("17")):
             #     return redirect(url_for('home'))
