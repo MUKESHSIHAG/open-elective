@@ -225,7 +225,7 @@ def callback():
                 id_=unique_id, name=users_name, email=users_email, roll_number=roll_number, branch=branch_name, branch_code=branch_code, semester=student_sem, cgpi=student_cgpi
             )
             login_user(user)
-            
+
             # Doesn't exist? Add to database
             try:
                 if not User.get(unique_id):
@@ -238,7 +238,7 @@ def callback():
             
             if student_year == '1':
                 return "You have enough time for open elective choice! Now just focus on your study only :)"
-            elif (student_sem == '4' or student_sem == '5' or student_sem == '6'):
+            elif (student_sem == '7' or student_sem == '6'):
                 return redirect(url_for('home'))
             # elif(str(roll_number).startswith("17")):
             #     return redirect(url_for('home'))
