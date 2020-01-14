@@ -175,9 +175,11 @@ def callback():
             # Finding students Rollno. and branch
             current_year = str(datetime.datetime.now().year)[2:]
             current_month = datetime.datetime.now().month
-            student_sem  = 0
-            student_year = int(current_year) - int(users_email[:2]) + 1
+            student_sem  = None
+            student_year = int(current_year) - int(users_email[:2])
+            
             if(current_month > 5):
+                student_year += 1
                 student_sem = str(2 * student_year - 1)
             else:
                 student_sem = str(2 * student_year)
