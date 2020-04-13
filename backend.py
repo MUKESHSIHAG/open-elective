@@ -84,16 +84,20 @@ def update_preferences(roll_number,prefs):
             #     print("Error: ",i,sub_code,e)
         conn.commit()
 def get_cgpi(roll_number):
-    api_url = f'https://nithp.herokuapp.com/api/search?rollno={roll_number}'
+    import sys
+    api_url = f'https://nithp.herokuapp.com/api/result/student/{roll_number}'
     req = urlrequest.Request(api_url)
     response = ''
-
-    with urlrequest.urlopen(req) as resp:
-        response = resp.read().decode()
-    
-    response = json.loads(response)
-    cgpi = response['body'][0][response['head'].index('cgpi')]
-    
+    try:
+        with urlrequest.urlopen(req) as resp:
+            response = resp.read().decode()
+        
+        response = json.loads(response)
+        # print(response)
+        cgpi = response['cgpi']
+    except:
+        print("Error in fetching cgpi from nithp.herokuapp.com",file=sys.stderr)
+        cgpi = 0
     return json.dumps(cgpi)
 
 @backend.route('/do_allotment')

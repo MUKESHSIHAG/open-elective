@@ -217,7 +217,6 @@ def callback():
             elif(users_email[2] == '8'):
                 branch_name = 'Material'
                 branch_code = 'MS'
-
             student_cgpi = get_cgpi(roll_number)
             if student_cgpi is None:
                 return "CGPI not found"
